@@ -7,9 +7,17 @@ class PaintingBoard extends StatelessWidget {
     double? boardHeight,
     double? boardWidth,
     Color? boardBackgroundColor,
-  })  : _boardHeight = boardHeight ?? double.infinity,
+    BoxDecoration? boardDecoration,
+  })  : assert(
+          boardBackgroundColor == null || boardDecoration == null,
+          'Cannot provide both a boardBackgroundColor and a boardDecoration\n'
+          'To provide both, use "boardDecoration: BoxDecoration(color: boardDecoration)".',
+        ),
+        _boardHeight = boardHeight ?? double.infinity,
         _boardWidth = boardWidth ?? double.infinity,
-        _boardBackgroundColor = boardBackgroundColor ?? Colors.grey,
+        _boardBackgroundColor = boardBackgroundColor ??
+            (boardDecoration == null ? Colors.grey : null),
+        _boardDecoration = boardDecoration,
         super(key: key);
 
   /// The height of the board.
@@ -26,16 +34,22 @@ class PaintingBoard extends StatelessWidget {
 
   /// The background color of the board.
   ///
-  /// Note that if this property is set, [boardDecoration] must be null.
+  /// Note that if this property is set, [_boardDecoration] must be null.
   ///
-  /// If this value is not set and [boardDecoration] is not provided,
+  /// If this value is not set and [_boardDecoration] is not provided,
   /// the default background color will be [Colors.grey].
-  final Color _boardBackgroundColor;
+  final Color? _boardBackgroundColor;
+
+  /// The decoration applied to the painting board.
+  ///
+  /// Note that if this property is set, [_boardBackgroundColor] must be null.s
+  final BoxDecoration? _boardDecoration;
 
   @override
   Widget build(BuildContext context) => Container(
         height: _boardHeight,
         width: _boardWidth,
         color: _boardBackgroundColor,
+        decoration: _boardDecoration,
       );
 }
