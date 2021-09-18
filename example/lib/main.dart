@@ -14,7 +14,10 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       home: Scaffold(
         body: Center(
-          child: PaintingBoard(),
+          child: PaintingBoard(
+            boardHeight: 500,
+            boardWidth: 300,
+          ),
         ),
       ),
     );
