@@ -23,15 +23,40 @@ class PaintingBoardRepository {
   List<PaintingBoardPoint?> get points => _points;
 
   /// A method to add a new point to [_points].
-  void addPoint(PaintingBoardPoint? point) {
-    if (point == null || _validatePoint(point.position)) _points.add(point);
+  void addPoint(PaintingBoardPoint point) {
+    final PaintingBoardPoint validatedPoint = _validatePoint(point);
+    _points.add(validatedPoint);
   }
 
-  /// A private method which returns true if the position of the point is
-  /// inside the [PaintingBoard] and then the point can be displayed.
-  bool _validatePoint(Offset position) =>
-      position.dx > 0 &&
-      position.dy > 0 &&
-      position.dx < _boardWidth &&
-      position.dy < _boardHeight;
+  /// Method called when a line ends. It just adds `null` to [_points].
+  void addEndLinePoint() {
+    _points.add(null);
+  }
+
+  /// A private method which returns the point with the validated position.
+  ///
+  /// If a point is negative or bigger than height or size of the [PaintingBoard],
+  /// its value must be changed.
+  PaintingBoardPoint _validatePoint(PaintingBoardPoint point) {
+    /// X coordinate of the point.
+    double x = point.position.dx;
+
+    /// Y coordinate of the point.
+    double y = point.position.dy;
+
+    /// If the X coordinate is negative or higher than the width of
+    /// the board then change its value.
+    if (x < 0)
+      x = 0;
+    else if (x > _boardWidth) x = _boardWidth;
+
+    /// If the Y coordinate is negative or higher than the height of
+    /// the board then change its value.
+    if (y < 0)
+      y = 0;
+    else if (y > _boardHeight) y = _boardHeight;
+
+    /// Return the point with a validate position.
+    return point.copyWith(position: Offset(x, y));
+  }
 }

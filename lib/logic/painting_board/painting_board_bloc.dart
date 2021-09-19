@@ -53,7 +53,7 @@ class PaintingBoardBloc extends Bloc<PaintingBoardEvent, PaintingBoardState> {
       yield PaintingBoardInProgress(repository.points);
     } else if (event is PaintingBoardLineEnded) {
       // print('line ended');
-      repository.addPoint(null);
+      repository.addEndLinePoint();
       yield PaintingBoardInProgress(repository.points);
     }
   }

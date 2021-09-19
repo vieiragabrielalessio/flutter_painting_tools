@@ -12,4 +12,13 @@ class PaintingBoardPoint {
 
   /// The [Paint] used to display each point.
   final Paint paint;
+
+  PaintingBoardPoint copyWith({
+    Offset? position,
+    Paint? paint,
+  }) =>
+      PaintingBoardPoint(
+        position: position ?? this.position,
+        paint: paint ?? this.paint,
+      );
 }
