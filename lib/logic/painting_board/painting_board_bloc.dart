@@ -1,8 +1,8 @@
 import 'package:bloc/bloc.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_painting_tools/data/models/painting_board_point.dart';
+import 'package:flutter_painting_tools/data/repositories/painting_board_repository.dart';
 import 'package:flutter_painting_tools/logic/painting_board/painting_board_event.dart';
 import 'package:flutter_painting_tools/logic/painting_board/painting_board_state.dart';
 
@@ -11,13 +11,14 @@ class PaintingBoardBloc extends Bloc<PaintingBoardEvent, PaintingBoardState> {
   /// Creates the bloc with the initial state of [PaintingBoardInitial].
   PaintingBoardBloc() : super(PaintingBoardInitial());
 
-  final List<PaintingBoardPoint?> points = <PaintingBoardPoint?>[];
+  /// Create a repository.
+  final PaintingBoardRepository repository = PaintingBoardRepository();
 
   @override
   Stream<PaintingBoardState> mapEventToState(PaintingBoardEvent event) async* {
     if (event is PaintingBoardLineStarted) {
       // print('line started at: ${event.position}');
-      points.add(
+      repository.addPoint(
         PaintingBoardPoint(
           position: event.position,
           paint: Paint()
@@ -27,10 +28,11 @@ class PaintingBoardBloc extends Bloc<PaintingBoardEvent, PaintingBoardState> {
             ..strokeWidth = 5,
         ),
       );
-      yield PaintingBoardInProgress(points);
+
+      yield PaintingBoardInProgress(repository.points);
     } else if (event is PaintingBoardLineUpdated) {
       // print('line updated at: ${event.position}');
-      points.add(
+      repository.addPoint(
         PaintingBoardPoint(
           position: event.position,
           paint: Paint()
@@ -40,11 +42,11 @@ class PaintingBoardBloc extends Bloc<PaintingBoardEvent, PaintingBoardState> {
             ..strokeWidth = 5,
         ),
       );
-      yield PaintingBoardInProgress(points);
+      yield PaintingBoardInProgress(repository.points);
     } else if (event is PaintingBoardLineEnded) {
       // print('line ended');
-      points.add(null);
-      yield PaintingBoardInProgress(points);
+      repository.addPoint(null);
+      yield PaintingBoardInProgress(repository.points);
     }
   }
 }

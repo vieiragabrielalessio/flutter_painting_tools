@@ -82,6 +82,7 @@ class PaintingBoard extends StatelessWidget {
                           ? CustomPaint(
                               painter: PaintingBoardPainter(state.points),
                             )
+                          // ! TO FIX: this text can't be wrapped with center because of a bug
                           : const Text('Touch to board to start painting'),
                 ),
               ),
