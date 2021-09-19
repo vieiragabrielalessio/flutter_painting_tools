@@ -52,7 +52,10 @@ class PaintingBoard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => BlocProvider<PaintingBoardBloc>(
-        create: (_) => PaintingBoardBloc(),
+        create: (_) => PaintingBoardBloc(
+          boardHeight: _boardHeight,
+          boardWidth: _boardWidth,
+        ),
         child: Builder(
           builder: (BuildContext context) => RepaintBoundary(
             child: Container(

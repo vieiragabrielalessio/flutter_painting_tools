@@ -9,10 +9,18 @@ import 'package:flutter_painting_tools/logic/painting_board/painting_board_state
 /// Bloc used to manage the state of the painting board
 class PaintingBoardBloc extends Bloc<PaintingBoardEvent, PaintingBoardState> {
   /// Creates the bloc with the initial state of [PaintingBoardInitial].
-  PaintingBoardBloc() : super(PaintingBoardInitial());
+  PaintingBoardBloc({
+    required double boardHeight,
+    required double boardWidth,
+  }) : super(PaintingBoardInitial()) {
+    repository = PaintingBoardRepository(
+      boardHeight: boardHeight,
+      boardWidth: boardWidth,
+    );
+  }
 
   /// Create a repository.
-  final PaintingBoardRepository repository = PaintingBoardRepository();
+  late final PaintingBoardRepository repository;
 
   @override
   Stream<PaintingBoardState> mapEventToState(PaintingBoardEvent event) async* {
