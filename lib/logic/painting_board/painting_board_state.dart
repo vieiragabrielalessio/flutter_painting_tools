@@ -1,3 +1,5 @@
+import 'package:flutter/gestures.dart';
+
 abstract class PaintingBoardState {}
 
 /// The intial state of the painting board.
@@ -9,4 +11,9 @@ class PaintingBoardInitial extends PaintingBoardState {}
 /// one point, so the user is currently painting.
 ///
 /// The board is not empty.
-class PaintingBoardInProgress extends PaintingBoardState {}
+class PaintingBoardInProgress extends PaintingBoardState {
+  PaintingBoardInProgress(this.points);
+
+  /// The list of point used to represent the painting.
+  final List<Offset> points;
+}

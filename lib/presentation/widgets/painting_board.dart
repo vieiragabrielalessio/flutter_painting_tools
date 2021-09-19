@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_painting_tools/logic/painting_board/painting_board_bloc.dart';
+import 'package:flutter_painting_tools/logic/painting_board/painting_board_event.dart';
 
 class PaintingBoard extends StatelessWidget {
   /// A board where the user can paint.
@@ -46,23 +49,30 @@ class PaintingBoard extends StatelessWidget {
   final BoxDecoration? _boardDecoration;
 
   @override
-  Widget build(BuildContext context) => Container(
-        height: _boardHeight,
-        width: _boardWidth,
-        color: _boardBackgroundColor,
-        decoration: _boardDecoration,
-        child: GestureDetector(
-          onPanStart: (DragStartDetails details) {
-            // TODO: implement start
-            final Offset localPosition = details.localPosition;
-          },
-          onPanUpdate: (DragUpdateDetails details) {
-            // TODO: implement update
-            final Offset localPosition = details.localPosition;
-          },
-          onPanEnd: (_) {
-            // TODO: implement end
-          },
-        ),
+  Widget build(BuildContext context) => BlocProvider<PaintingBoardBloc>(
+        create: (_) => PaintingBoardBloc(),
+        child: Builder(
+            builder: (BuildContext context) => Container(
+                  height: _boardHeight,
+                  width: _boardWidth,
+                  color: _boardBackgroundColor,
+                  decoration: _boardDecoration,
+                  child: GestureDetector(
+                    onPanStart: (DragStartDetails details) {
+                      final Offset position = details.localPosition;
+                      BlocProvider.of<PaintingBoardBloc>(context)
+                          .add(PaintingBoardLineStarted(position));
+                    },
+                    onPanUpdate: (DragUpdateDetails details) {
+                      final Offset position = details.localPosition;
+                      BlocProvider.of<PaintingBoardBloc>(context)
+                          .add(PaintingBoardLineUpdated(position));
+                    },
+                    onPanEnd: (_) {
+                      BlocProvider.of<PaintingBoardBloc>(context)
+                          .add(PaintingBoardLineEnded());
+                    },
+                  ),
+                )),
       );
 }
