@@ -23,3 +23,5 @@ class PaintingBoardLineUpdated extends PaintingBoardEvent {
 /// This event is called every time user ends a line by removing the finger from
 /// the screen.
 class PaintingBoardLineEnded extends PaintingBoardEvent {}
+
+class PaintingBoardDeleted extends PaintingBoardEvent {}

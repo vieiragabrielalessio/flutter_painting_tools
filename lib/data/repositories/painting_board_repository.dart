@@ -59,4 +59,8 @@ class PaintingBoardRepository {
     /// Return the point with a validate position.
     return point.copyWith(position: Offset(x, y));
   }
+
+  void deletePainting() {
+    _points.clear();
+  }
 }

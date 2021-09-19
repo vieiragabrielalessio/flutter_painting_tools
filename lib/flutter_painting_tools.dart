@@ -1,7 +1,4 @@
 library flutter_painting_tools;
 
-/// A Calculator.
-class Calculator {
-  /// Returns [value] plus 1.
-  int addOne(int value) => value + 1;
-}
+export 'logic/painting_board_controller/painting_board_controller.dart';
+export 'presentation/widgets/painting_board.dart';

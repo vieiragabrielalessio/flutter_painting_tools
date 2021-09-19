@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_painting_tools/data/models/painting_board_point.dart';
 import 'package:flutter_painting_tools/data/repositories/painting_board_repository.dart';
+import 'package:flutter_painting_tools/flutter_painting_tools.dart';
 import 'package:flutter_painting_tools/logic/painting_board/painting_board_event.dart';
 import 'package:flutter_painting_tools/logic/painting_board/painting_board_state.dart';
 
@@ -12,11 +13,20 @@ class PaintingBoardBloc extends Bloc<PaintingBoardEvent, PaintingBoardState> {
   PaintingBoardBloc({
     required double boardHeight,
     required double boardWidth,
+    required PaintingBoardController paintingBoardController,
   }) : super(PaintingBoardInitial()) {
     repository = PaintingBoardRepository(
       boardHeight: boardHeight,
       boardWidth: boardWidth,
     );
+
+    paintingBoardController.onEventChanged
+        .listen((PaintingBoardControllerEventType event) {
+      if (event == PaintingBoardControllerEventType.paintingDeleted) {
+        repository.deletePainting();
+        add(PaintingBoardDeleted());
+      }
+    });
   }
 
   /// Create a repository.
@@ -55,6 +65,8 @@ class PaintingBoardBloc extends Bloc<PaintingBoardEvent, PaintingBoardState> {
       // print('line ended');
       repository.addEndLinePoint();
       yield PaintingBoardInProgress(repository.points);
+    } else if (event is PaintingBoardDeleted) {
+      yield PaintingBoardInitial();
     }
   }
 }

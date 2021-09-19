@@ -3,16 +3,18 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_painting_tools/logic/painting_board/painting_board_bloc.dart';
 import 'package:flutter_painting_tools/logic/painting_board/painting_board_event.dart';
 import 'package:flutter_painting_tools/logic/painting_board/painting_board_state.dart';
+import 'package:flutter_painting_tools/logic/painting_board_controller/painting_board_controller.dart';
 import 'package:flutter_painting_tools/presentation/painters/painting_board_painter.dart';
 
 class PaintingBoard extends StatelessWidget {
   /// A board where the user can paint.
-  const PaintingBoard({
+  PaintingBoard({
     Key? key,
     double? boardHeight,
     double? boardWidth,
     Color? boardBackgroundColor,
     BoxDecoration? boardDecoration,
+    PaintingBoardController? controller,
   })  : assert(
           boardBackgroundColor == null || boardDecoration == null,
           'Cannot provide both a boardBackgroundColor and a boardDecoration\n'
@@ -23,6 +25,7 @@ class PaintingBoard extends StatelessWidget {
         _boardBackgroundColor = boardBackgroundColor ??
             (boardDecoration == null ? Colors.grey : null),
         _boardDecoration = boardDecoration,
+        _controller = controller ?? PaintingBoardController(),
         super(key: key);
 
   /// The height of the board.
@@ -50,11 +53,15 @@ class PaintingBoard extends StatelessWidget {
   /// Note that if this property is set, [_boardBackgroundColor] must be null.s
   final BoxDecoration? _boardDecoration;
 
+  /// A controller used for manage specific tasks of the [PaintingBoard].
+  final PaintingBoardController _controller;
+
   @override
   Widget build(BuildContext context) => BlocProvider<PaintingBoardBloc>(
         create: (_) => PaintingBoardBloc(
           boardHeight: _boardHeight,
           boardWidth: _boardWidth,
+          paintingBoardController: _controller,
         ),
         child: Builder(
           builder: (BuildContext context) => RepaintBoundary(
