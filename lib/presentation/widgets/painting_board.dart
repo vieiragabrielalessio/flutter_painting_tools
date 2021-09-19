@@ -51,5 +51,18 @@ class PaintingBoard extends StatelessWidget {
         width: _boardWidth,
         color: _boardBackgroundColor,
         decoration: _boardDecoration,
+        child: GestureDetector(
+          onPanStart: (DragStartDetails details) {
+            // TODO: implement start
+            final Offset localPosition = details.localPosition;
+          },
+          onPanUpdate: (DragUpdateDetails details) {
+            // TODO: implement update
+            final Offset localPosition = details.localPosition;
+          },
+          onPanEnd: (_) {
+            // TODO: implement end
+          },
+        ),
       );
 }
