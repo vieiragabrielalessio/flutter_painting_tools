@@ -21,8 +21,9 @@ class PaintingBoardBloc extends Bloc<PaintingBoardEvent, PaintingBoardState> {
       points.add(event.position);
       yield PaintingBoardInProgress(points);
     } else if (event is PaintingBoardLineEnded) {
-      points.clear();
       // print('line ended');
+      points.clear();
+      yield PaintingBoardInProgress(points);
     }
   }
 }

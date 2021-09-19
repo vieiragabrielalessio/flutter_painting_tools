@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_painting_tools/logic/painting_board/painting_board_bloc.dart';
 import 'package:flutter_painting_tools/logic/painting_board/painting_board_event.dart';
+import 'package:flutter_painting_tools/logic/painting_board/painting_board_state.dart';
+import 'package:flutter_painting_tools/presentation/painters/painting_board_painter.dart';
 
 class PaintingBoard extends StatelessWidget {
   /// A board where the user can paint.
@@ -52,27 +54,41 @@ class PaintingBoard extends StatelessWidget {
   Widget build(BuildContext context) => BlocProvider<PaintingBoardBloc>(
         create: (_) => PaintingBoardBloc(),
         child: Builder(
-            builder: (BuildContext context) => Container(
-                  height: _boardHeight,
-                  width: _boardWidth,
-                  color: _boardBackgroundColor,
-                  decoration: _boardDecoration,
-                  child: GestureDetector(
-                    onPanStart: (DragStartDetails details) {
-                      final Offset position = details.localPosition;
-                      BlocProvider.of<PaintingBoardBloc>(context)
-                          .add(PaintingBoardLineStarted(position));
-                    },
-                    onPanUpdate: (DragUpdateDetails details) {
-                      final Offset position = details.localPosition;
-                      BlocProvider.of<PaintingBoardBloc>(context)
-                          .add(PaintingBoardLineUpdated(position));
-                    },
-                    onPanEnd: (_) {
-                      BlocProvider.of<PaintingBoardBloc>(context)
-                          .add(PaintingBoardLineEnded());
-                    },
-                  ),
-                )),
+          builder: (BuildContext context) => Container(
+            height: _boardHeight,
+            width: _boardWidth,
+            color: _boardBackgroundColor,
+            decoration: _boardDecoration,
+            child: GestureDetector(
+              onPanStart: (DragStartDetails details) {
+                final Offset position = details.localPosition;
+                BlocProvider.of<PaintingBoardBloc>(context)
+                    .add(PaintingBoardLineStarted(position));
+              },
+              onPanUpdate: (DragUpdateDetails details) {
+                final Offset position = details.localPosition;
+                BlocProvider.of<PaintingBoardBloc>(context)
+                    .add(PaintingBoardLineUpdated(position));
+              },
+              onPanEnd: (_) {
+                BlocProvider.of<PaintingBoardBloc>(context)
+                    .add(PaintingBoardLineEnded());
+              },
+              child: BlocBuilder<PaintingBoardBloc, PaintingBoardState>(
+                bloc: BlocProvider.of<PaintingBoardBloc>(context, listen: true),
+                builder: (BuildContext context, PaintingBoardState state) {
+                  if (state is PaintingBoardInProgress)
+                    return CustomPaint(
+                      painter: PaintingBoardPainter(state.points),
+                    );
+                  else
+                    return const Center(
+                      child: Text('Touch to board to start painting'),
+                    );
+                },
+              ),
+            ),
+          ),
+        ),
       );
 }
