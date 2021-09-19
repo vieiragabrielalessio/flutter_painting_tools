@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:flutter/material.dart';
 import 'package:flutter_painting_tools/data/models/painting_board_point.dart';
 
 /// A repository that communicates with [PaintingBoardBloc] to manage operations
@@ -22,10 +23,24 @@ class PaintingBoardRepository {
   final List<PaintingBoardPoint?> _points = <PaintingBoardPoint?>[];
   List<PaintingBoardPoint?> get points => _points;
 
+  /// The [Color] used to paint lines in the [PaintingBoard].
+  ///
+  /// The starting/default value is [Colors.black].
+  Color _brushColor = Colors.black;
+  set brushColor(Color color) => _brushColor = color;
+
   /// A method to add a new point to [_points].
-  void addPoint(PaintingBoardPoint point) {
-    final PaintingBoardPoint validatedPoint = _validatePoint(point);
-    _points.add(validatedPoint);
+  void addPoint(Offset position) {
+    final Offset validatedPosition = _validatePosition(position);
+    final PaintingBoardPoint point = PaintingBoardPoint(
+      position: validatedPosition,
+      paint: Paint()
+        ..strokeJoin = StrokeJoin.round
+        ..strokeCap = StrokeCap.round
+        ..strokeWidth = 5
+        ..color = _brushColor,
+    );
+    _points.add(point);
   }
 
   /// Method called when a line ends. It just adds `null` to [_points].
@@ -33,16 +48,16 @@ class PaintingBoardRepository {
     _points.add(null);
   }
 
-  /// A private method which returns the point with the validated position.
+  /// A private method which returns the validated position of each point.
   ///
   /// If a point is negative or bigger than height or size of the [PaintingBoard],
   /// its value must be changed.
-  PaintingBoardPoint _validatePoint(PaintingBoardPoint point) {
+  Offset _validatePosition(Offset position) {
     /// X coordinate of the point.
-    double x = point.position.dx;
+    double x = position.dx;
 
     /// Y coordinate of the point.
-    double y = point.position.dy;
+    double y = position.dy;
 
     /// If the X coordinate is negative or higher than the width of
     /// the board then change its value.
@@ -57,7 +72,7 @@ class PaintingBoardRepository {
     else if (y > _boardHeight) y = _boardHeight;
 
     /// Return the point with a validate position.
-    return point.copyWith(position: Offset(x, y));
+    return Offset(x, y);
   }
 
   void deletePainting() {

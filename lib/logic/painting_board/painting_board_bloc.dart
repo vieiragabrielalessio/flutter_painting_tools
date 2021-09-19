@@ -1,11 +1,9 @@
 import 'package:bloc/bloc.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_painting_tools/data/models/painting_board_point.dart';
 import 'package:flutter_painting_tools/data/repositories/painting_board_repository.dart';
 import 'package:flutter_painting_tools/flutter_painting_tools.dart';
 import 'package:flutter_painting_tools/logic/painting_board/painting_board_event.dart';
 import 'package:flutter_painting_tools/logic/painting_board/painting_board_state.dart';
+import 'package:flutter_painting_tools/logic/painting_board_controller/painting_board_controller_event.dart';
 
 /// Bloc used to manage the state of the painting board
 class PaintingBoardBloc extends Bloc<PaintingBoardEvent, PaintingBoardState> {
@@ -20,11 +18,17 @@ class PaintingBoardBloc extends Bloc<PaintingBoardEvent, PaintingBoardState> {
       boardWidth: boardWidth,
     );
 
+    /// Listen to changes on the [PaintingBoardController] and to something based
+    /// on what happened.
     paintingBoardController.onEventChanged
-        .listen((PaintingBoardControllerEventType event) {
-      if (event == PaintingBoardControllerEventType.paintingDeleted) {
+        .listen((PaintingBoardControllerEvent event) {
+      if (event is PaintingBoardControllerPaintingDeleted) {
+        /// Delete the painting.
         repository.deletePainting();
         add(PaintingBoardDeleted());
+      } else if (event is PaintingBoardControllerBrushColorChanged) {
+        /// Update the brush color in the repository.
+        repository.brushColor = event.color;
       }
     });
   }
@@ -36,30 +40,12 @@ class PaintingBoardBloc extends Bloc<PaintingBoardEvent, PaintingBoardState> {
   Stream<PaintingBoardState> mapEventToState(PaintingBoardEvent event) async* {
     if (event is PaintingBoardLineStarted) {
       // print('line started at: ${event.position}');
-      repository.addPoint(
-        PaintingBoardPoint(
-          position: event.position,
-          paint: Paint()
-            ..color = Colors.black
-            ..strokeJoin = StrokeJoin.round
-            ..strokeCap = StrokeCap.round
-            ..strokeWidth = 5,
-        ),
-      );
+      repository.addPoint(event.position);
 
       yield PaintingBoardInProgress(repository.points);
     } else if (event is PaintingBoardLineUpdated) {
       // print('line updated at: ${event.position}');
-      repository.addPoint(
-        PaintingBoardPoint(
-          position: event.position,
-          paint: Paint()
-            ..color = Colors.black
-            ..strokeJoin = StrokeJoin.round
-            ..strokeCap = StrokeCap.round
-            ..strokeWidth = 5,
-        ),
-      );
+      repository.addPoint(event.position);
       yield PaintingBoardInProgress(repository.points);
     } else if (event is PaintingBoardLineEnded) {
       // print('line ended');
