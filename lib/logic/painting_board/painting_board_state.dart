@@ -1,4 +1,5 @@
 import 'package:flutter/gestures.dart';
+import 'package:flutter_painting_tools/data/models/painting_board_point.dart';
 
 abstract class PaintingBoardState {}
 
@@ -15,5 +16,5 @@ class PaintingBoardInProgress extends PaintingBoardState {
   PaintingBoardInProgress(this.points);
 
   /// The list of point used to represent the painting.
-  final List<Offset> points;
+  final List<PaintingBoardPoint?> points;
 }

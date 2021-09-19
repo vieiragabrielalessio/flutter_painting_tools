@@ -54,38 +54,36 @@ class PaintingBoard extends StatelessWidget {
   Widget build(BuildContext context) => BlocProvider<PaintingBoardBloc>(
         create: (_) => PaintingBoardBloc(),
         child: Builder(
-          builder: (BuildContext context) => Container(
-            height: _boardHeight,
-            width: _boardWidth,
-            color: _boardBackgroundColor,
-            decoration: _boardDecoration,
-            child: GestureDetector(
-              onPanStart: (DragStartDetails details) {
-                final Offset position = details.localPosition;
-                BlocProvider.of<PaintingBoardBloc>(context)
-                    .add(PaintingBoardLineStarted(position));
-              },
-              onPanUpdate: (DragUpdateDetails details) {
-                final Offset position = details.localPosition;
-                BlocProvider.of<PaintingBoardBloc>(context)
-                    .add(PaintingBoardLineUpdated(position));
-              },
-              onPanEnd: (_) {
-                BlocProvider.of<PaintingBoardBloc>(context)
-                    .add(PaintingBoardLineEnded());
-              },
-              child: BlocBuilder<PaintingBoardBloc, PaintingBoardState>(
-                bloc: BlocProvider.of<PaintingBoardBloc>(context, listen: true),
-                builder: (BuildContext context, PaintingBoardState state) {
-                  if (state is PaintingBoardInProgress)
-                    return CustomPaint(
-                      painter: PaintingBoardPainter(state.points),
-                    );
-                  else
-                    return const Center(
-                      child: Text('Touch to board to start painting'),
-                    );
+          builder: (BuildContext context) => RepaintBoundary(
+            child: Container(
+              height: _boardHeight,
+              width: _boardWidth,
+              color: _boardBackgroundColor,
+              decoration: _boardDecoration,
+              child: GestureDetector(
+                onPanStart: (DragStartDetails details) {
+                  final Offset position = details.localPosition;
+                  BlocProvider.of<PaintingBoardBloc>(context)
+                      .add(PaintingBoardLineStarted(position));
                 },
+                onPanUpdate: (DragUpdateDetails details) {
+                  final Offset position = details.localPosition;
+                  BlocProvider.of<PaintingBoardBloc>(context)
+                      .add(PaintingBoardLineUpdated(position));
+                },
+                onPanEnd: (_) {
+                  BlocProvider.of<PaintingBoardBloc>(context)
+                      .add(PaintingBoardLineEnded());
+                },
+                child: BlocBuilder<PaintingBoardBloc, PaintingBoardState>(
+                  bloc: BlocProvider.of<PaintingBoardBloc>(context),
+                  builder: (BuildContext context, PaintingBoardState state) =>
+                      state is PaintingBoardInProgress
+                          ? CustomPaint(
+                              painter: PaintingBoardPainter(state.points),
+                            )
+                          : const Text('Touch to board to start painting'),
+                ),
               ),
             ),
           ),
