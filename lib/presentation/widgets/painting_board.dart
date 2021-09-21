@@ -88,12 +88,9 @@ class PaintingBoard extends StatelessWidget {
                 child: BlocBuilder<PaintingBoardBloc, PaintingBoardState>(
                   bloc: BlocProvider.of<PaintingBoardBloc>(context),
                   builder: (BuildContext context, PaintingBoardState state) =>
-                      state is PaintingBoardInProgress
-                          ? CustomPaint(
-                              painter: PaintingBoardPainter(state.points),
-                            )
-                          // ! TO FIX: this text can't be wrapped with center because of a bug
-                          : const Text('Touch to board to start painting'),
+                      CustomPaint(
+                    painter: PaintingBoardPainter(state.points),
+                  ),
                 ),
               ),
             ),
