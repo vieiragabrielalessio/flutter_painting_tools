@@ -13,17 +13,19 @@ and the Flutter guide for
 
 # Flutter Painting Tools
 
-A simple usage flutter library that allows the user to paint on the screen.
+A simple flutter library that allows the user to paint on the screen.
 
-## Installing
-
-TODO: Implement installing guide.
+<img src="images/different_colors.gif" height="500" />
 
 ## Getting started
 
-TODO: Implement getting started.
+* [Basic usage](#basic-usage)
+* [Advanced usage](#advanced-usage) 
+  * [setting up a controller](#setting-up-the-controller)
+  * [paint with multiple colors](#paint-with-multiple-colors)
+  * [delete the painting](#delete-the-painting)
 
-## Basic Usage
+<h2 id="basic-usage">Basic Usage</h2>
 
 This package is very easy to use.
 
@@ -42,7 +44,7 @@ Center(
 
 Which will produce an output like this:
 
-<img src="images/basic_usage.png"  height="500" />
+<img src="images/basic_usage.png" height="500" />
 
 You can customize your ```PaintingBoard``` how much do you want by changing its parameters 
 
@@ -54,13 +56,14 @@ You can customize your ```PaintingBoard``` how much do you want by changing its 
 | ```boardDecoration```      | ```BoxDecoration?```           | The decoration of the ```PaintingBoard```                                                  | ```null```            |
 | ```controller```           | ```PaintingBoardController?``` | The controller used to manage advanced task of the ```PaintingBoard``` (explained further) | ```null```            |
 
-## Advanced Usage
+<h2 id="advanced-usage">Advanced Usage</h2>
 
-### Setting up the controller
+<h3 id="setting-up-the-controller">Setting up the controller</h3>
 
-If you want do perform advanced task, such as paint with different colors, delete the painting, ecc. you need to set up a ```PaintingBoardController```.
+If you want do perform advanced task, such as paint with different colors, delete the painting, ecc. you need to set up a ```PaintingBoardController```.  
+Follow these steps to do it properly:
 
-1. Declare the ```PaintingBoardController```
+1. Declare the ```PaintingBoardController``` inside the state of your ```StatefulWidget```
 
     ```dart
     late final PaintingBoardController controller;
@@ -87,15 +90,32 @@ If you want do perform advanced task, such as paint with different colors, delet
 
     ```dart
     PaintingBoard(
-        boardHeight: 500,
-        boardWidth: 300,
-        boardBackgroundColor: Colors.grey[400],
         controller: controller,
     )
     ```
 
-## Additional information
+<h3 id="paint-with-multiple-colors">Paint with multiple colors</h3>
 
-TODO: Tell users more about the package: where to find more information, how to 
-contribute to the package, how to file issues, what response they can expect 
-from the package authors, and more.
+The default color of the "brush" used to paint inside the board is ```Colors.black```. If you want to paint with different colors you can use the ```changeBrushColor()``` method of the ```PaintingBoardController``` and pass to it the color you want.  
+
+Suppose for example you want to change the color of the "brush" when a button is tapped. You may do something like this:
+
+```dart
+ElevatedButton(
+    onPressed: () {
+        controller.changeBrushColor(Colors.blue);
+    }
+)
+```
+
+<h3 id="delete-the-painting">Delete the painting</h3>
+
+If you want to delete everything inside your ```PaintingBoard``` you can simply call the ```deletePainting()``` method of the ```PaintingBoardController```.
+
+Example:
+```dart
+IconButton(
+    onPressed: () => controller.deletePainting(),
+    icon: const Icon(Icons.delete),
+),
+```
