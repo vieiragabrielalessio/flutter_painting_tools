@@ -75,7 +75,35 @@ class PaintingBoardRepository {
     return Offset(x, y);
   }
 
+  /// Method that deletes everything inside [_points] and restore [_linesCount]
   void deletePainting() {
     _points.clear();
+  }
+
+  void deleteLastLine() {
+    /// If the [PaintingBoard] is empty we do not need to delete things.
+    if (_points.isNotEmpty) {
+      /// Remove the last element of [_points] just to perform operations.
+      ///
+      /// We now that the last element of [_points] is always a [null].
+      _points.removeLast();
+
+      /// The length of the [_points].
+      final int length = _points.length;
+
+      /// Last position where we can find a [null].
+      ///
+      /// Then we can delete from here to the end of the list ([_points]).
+      final int lastIndexNull = _points.lastIndexOf(null);
+
+      /* 
+        !debug
+        print('len: $length');
+        print('last null: $lastIndexNull');
+        print('last point: ${length - 1}'); */
+
+      /// Remove points from the last null to the end.
+      _points.removeRange(lastIndexNull + 1, length);
+    }
   }
 }

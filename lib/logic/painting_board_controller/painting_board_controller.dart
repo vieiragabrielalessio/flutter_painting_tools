@@ -26,4 +26,8 @@ class PaintingBoardController {
   void dispose() {
     _controller.close();
   }
+
+  void deleteLastLine() {
+    _controller.sink.add(PaintingBoardControllerLastLineDeleted());
+  }
 }

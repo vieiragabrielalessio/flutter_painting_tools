@@ -29,6 +29,10 @@ class PaintingBoardBloc extends Bloc<PaintingBoardEvent, PaintingBoardState> {
       } else if (event is PaintingBoardControllerBrushColorChanged) {
         /// Update the brush color in the repository.
         repository.brushColor = event.color;
+      } else if (event is PaintingBoardControllerLastLineDeleted) {
+        /// Delete last line.
+        repository.deleteLastLine();
+        add(PaintingBoardLastLineDeleted());
       }
     });
   }
@@ -53,6 +57,8 @@ class PaintingBoardBloc extends Bloc<PaintingBoardEvent, PaintingBoardState> {
       yield PaintingBoardInProgress(repository.points);
     } else if (event is PaintingBoardDeleted) {
       yield PaintingBoardInitial();
+    } else if (event is PaintingBoardLastLineDeleted) {
+      yield PaintingBoardInProgress(repository.points);
     }
   }
 }

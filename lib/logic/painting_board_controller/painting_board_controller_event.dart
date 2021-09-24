@@ -14,3 +14,6 @@ class PaintingBoardControllerBrushColorChanged
   /// New color to use to paint.
   final Color color;
 }
+
+class PaintingBoardControllerLastLineDeleted
+    extends PaintingBoardControllerEvent {}

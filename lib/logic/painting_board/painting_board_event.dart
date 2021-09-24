@@ -25,3 +25,5 @@ class PaintingBoardLineUpdated extends PaintingBoardEvent {
 class PaintingBoardLineEnded extends PaintingBoardEvent {}
 
 class PaintingBoardDeleted extends PaintingBoardEvent {}
+
+class PaintingBoardLastLineDeleted extends PaintingBoardEvent {}
