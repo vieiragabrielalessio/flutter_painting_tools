@@ -1,9 +1,8 @@
 import 'package:bloc/bloc.dart';
-import 'package:flutter_painting_tools/data/repositories/painting_board_repository.dart';
 import 'package:flutter_painting_tools/flutter_painting_tools.dart';
-import 'package:flutter_painting_tools/logic/painting_board/painting_board_event.dart';
-import 'package:flutter_painting_tools/logic/painting_board/painting_board_state.dart';
-import 'package:flutter_painting_tools/logic/painting_board_controller/painting_board_controller_event.dart';
+import 'package:flutter_painting_tools/src/data/repositories/painting_board_repository.dart';
+import 'package:flutter_painting_tools/src/logic/painting_board/painting_board_event.dart';
+import 'package:flutter_painting_tools/src/logic/painting_board/painting_board_state.dart';
 
 /// Bloc used to manage the state of the painting board
 class PaintingBoardBloc extends Bloc<PaintingBoardEvent, PaintingBoardState> {

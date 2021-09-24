@@ -49,6 +49,10 @@ class _HomeScreenState extends State<HomeScreen> {
         title: const Text('Example'),
         actions: [
           IconButton(
+            onPressed: () => controller.deleteLastLine(),
+            icon: const Icon(Icons.arrow_back),
+          ),
+          IconButton(
             // Delete everything inside the board when this button is pressed
             onPressed: () => controller.deletePainting(),
             icon: const Icon(Icons.delete),

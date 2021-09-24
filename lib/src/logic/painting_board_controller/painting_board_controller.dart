@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:flutter/rendering.dart';
 import 'package:flutter_painting_tools/flutter_painting_tools.dart';
-import 'package:flutter_painting_tools/logic/painting_board_controller/painting_board_controller_event.dart';
 
 /// Controller for the [PaintingBoard] used to manage
 /// specific tasks.

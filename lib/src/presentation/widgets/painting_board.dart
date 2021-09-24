@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_painting_tools/logic/painting_board/painting_board_bloc.dart';
-import 'package:flutter_painting_tools/logic/painting_board/painting_board_event.dart';
-import 'package:flutter_painting_tools/logic/painting_board/painting_board_state.dart';
-import 'package:flutter_painting_tools/logic/painting_board_controller/painting_board_controller.dart';
-import 'package:flutter_painting_tools/presentation/painters/painting_board_painter.dart';
+import 'package:flutter_painting_tools/src/logic/painting_board/painting_board_bloc.dart';
+import 'package:flutter_painting_tools/src/logic/painting_board/painting_board_event.dart';
+import 'package:flutter_painting_tools/src/logic/painting_board/painting_board_state.dart';
+import 'package:flutter_painting_tools/src/logic/painting_board_controller/painting_board_controller.dart';
+import 'package:flutter_painting_tools/src/presentation/painters/painting_board_painter.dart';
 
 class PaintingBoard extends StatelessWidget {
   /// A board where the user can paint.

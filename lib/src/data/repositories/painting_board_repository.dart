@@ -1,7 +1,7 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_painting_tools/data/models/painting_board_point.dart';
+import 'package:flutter_painting_tools/src/data/models/painting_board_point.dart';
 
 /// A repository that communicates with [PaintingBoardBloc] to manage operations
 /// on the [PaintingBoard].

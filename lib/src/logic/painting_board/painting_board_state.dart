@@ -1,4 +1,4 @@
-import 'package:flutter_painting_tools/data/models/painting_board_point.dart';
+import 'package:flutter_painting_tools/src/data/models/painting_board_point.dart';
 
 abstract class PaintingBoardState {
   PaintingBoardState(this.points);

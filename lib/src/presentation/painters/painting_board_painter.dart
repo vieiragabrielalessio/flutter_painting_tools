@@ -2,7 +2,7 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:flutter_painting_tools/data/models/painting_board_point.dart';
+import 'package:flutter_painting_tools/src/data/models/painting_board_point.dart';
 
 class PaintingBoardPainter extends CustomPainter {
   PaintingBoardPainter(this.points);
