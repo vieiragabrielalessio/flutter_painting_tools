@@ -15,7 +15,7 @@ and the Flutter guide for
 
 A simple flutter library that allows the user to paint on the screen.
 
-<img src="images/different_colors.gif" height="500" />
+<img src="https://user-images.githubusercontent.com/90468540/134409076-50f3fd96-8e7d-4921-9f9c-af94a2f849cb.gif" height="500" />
 
 ## Getting started
 
@@ -44,7 +44,7 @@ Center(
 
 Which will produce an output like this:
 
-<img src="images/basic_usage.png" height="500" />
+<img src="https://user-images.githubusercontent.com/90468540/134409207-3d036ef4-10fb-4729-a4b0-8dcd93329dc9.png" height="500" />
 
 You can customize your ```PaintingBoard``` how much do you want by changing its parameters 
 
