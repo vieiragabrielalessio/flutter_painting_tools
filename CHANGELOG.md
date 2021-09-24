@@ -1,3 +1,8 @@
+## 1.1.0
+
+* Added the possibility to delete the last line painted.
+* Improved the importing of files by hiding unnecessary elements.
+
 ## 1.0.1
 
 * Fixed documentation bugs.
