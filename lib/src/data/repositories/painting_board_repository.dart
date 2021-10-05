@@ -75,11 +75,12 @@ class PaintingBoardRepository {
     return Offset(x, y);
   }
 
-  /// Method that deletes everything inside [_points] and restore [_linesCount]
+  /// Method that deletes everything inside [_points] and restore [_linesCount].
   void deletePainting() {
     _points.clear();
   }
 
+  /// Method that deletes the last line painted by the user.
   void deleteLastLine() {
     /// If the [PaintingBoard] is empty we do not need to delete things.
     if (_points.isNotEmpty) {

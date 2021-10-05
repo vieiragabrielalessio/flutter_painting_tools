@@ -24,6 +24,8 @@ A simple flutter library that allows the user to paint on the screen.
   * [setting up a controller](#setting-up-the-controller)
   * [paint with multiple colors](#paint-with-multiple-colors)
   * [delete the painting](#delete-the-painting)
+  * [delete last line painted](#delete-last-line-painted)
+
 
 <h2 id="basic-usage">Basic Usage</h2>
 
@@ -117,5 +119,20 @@ Example:
 IconButton(
     onPressed: () => controller.deletePainting(),
     icon: const Icon(Icons.delete),
-),
+)
 ```
+
+<h3 id="delete-last-line-painted">Delete last line painted</h3>
+
+It is very simple to delete the last line painted. You just need to call the ```deleteLastLine()``` method of the ```PaintingBoardController```.
+
+Example: 
+```dart
+IconButton(
+    onPressed: () => controller.deleteLastLine(),
+    icon: const Icon(Icons.delete),
+)
+```
+
+<img src="https://user-images.githubusercontent.com/90468540/136088559-856f0e03-1821-4430-9675-f9aeeaef0f9a.gif
+" height="500" />

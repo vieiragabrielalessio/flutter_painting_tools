@@ -1,11 +1,11 @@
 name: flutter_painting_tools
 description: A simple flutter library that allows the user to paint on the screen.
-version: 1.1.0
+version: 1.1.0+1
 homepage: https://github.com/Relga44/flutter_painting_tools
 
 environment:
-  sdk: ">=2.12.0 <3.0.0"
-  flutter: ">=1.17.0"
+  sdk: '>=2.12.0 <3.0.0'
+  flutter: '>=1.17.0'
 
 dependencies:
   bloc: ^7.1.0
@@ -22,7 +22,6 @@ dev_dependencies:
 # following page: https://dart.dev/tools/pub/pubspec
 # The following section is specific to Flutter.
 flutter: null
-
 # To add assets to your package, add an assets section, like this:
 # assets:
 #   - images/a_dot_burr.jpeg
