@@ -136,3 +136,47 @@ IconButton(
 
 <img src="https://user-images.githubusercontent.com/90468540/136088559-856f0e03-1821-4430-9675-f9aeeaef0f9a.gif
 " height="500" />
+
+
+<h3 id="save-the-painting-to-gallery">Save the painting to gallery</h3>
+
+This feature converts the content of the ```PaintingBoard``` into a .png which is saved in the gallery of the device.
+
+NOTE: this method only works on Android and IOS.
+
+#### Setup
+
+* Android: add permission for usage of external storage on Manifest file located at ```<project root>/android/app/src/main/AndroidManifest.xml```:
+  
+  ```xml
+    ...
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <application>
+    ...
+    </application>
+  ```
+
+* IOS: Add the following keys to your <i>Info.plist</i> file, located in `<project root>/ios/Runner/Info.plist`:
+    * `NSPhotoLibraryUsageDescription` - describe why your app needs permission for the photo library. This is called <i>Privacy - Photo Library Usage Description</i> in the visual editor.  
+    
+
+* Update the version of the `minSdkVersion` in the `<project root>/android/app/build.gradle` file, which must be at least `21`.
+
+
+* Update the version of `ext.kotlin_version` located at `<project root>/android/build.gradle`, which must be at least `1.5.21`.
+
+#### Usage
+Simply call the `savePaintingToGallery()` method of the `PaintingBoardController`.
+
+Example:
+
+```dart
+IconButton(
+    onPressed: () => controller.deleteLastLine(),
+    icon: const Icon(Icons.file_download),
+)
+```
+
+
+
+ 

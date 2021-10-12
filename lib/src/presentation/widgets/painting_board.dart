@@ -57,44 +57,51 @@ class PaintingBoard extends StatelessWidget {
   final PaintingBoardController _controller;
 
   @override
-  Widget build(BuildContext context) => BlocProvider<PaintingBoardBloc>(
-        create: (_) => PaintingBoardBloc(
-          boardHeight: _boardHeight,
-          boardWidth: _boardWidth,
-          paintingBoardController: _controller,
-        ),
-        child: Builder(
-          builder: (BuildContext context) => RepaintBoundary(
-            child: Container(
-              height: _boardHeight,
-              width: _boardWidth,
-              color: _boardBackgroundColor,
-              decoration: _boardDecoration,
-              child: GestureDetector(
-                onPanStart: (DragStartDetails details) {
-                  final Offset position = details.localPosition;
-                  BlocProvider.of<PaintingBoardBloc>(context)
-                      .add(PaintingBoardLineStarted(position));
-                },
-                onPanUpdate: (DragUpdateDetails details) {
-                  final Offset position = details.localPosition;
-                  BlocProvider.of<PaintingBoardBloc>(context)
-                      .add(PaintingBoardLineUpdated(position));
-                },
-                onPanEnd: (_) {
-                  BlocProvider.of<PaintingBoardBloc>(context)
-                      .add(PaintingBoardLineEnded());
-                },
-                child: BlocBuilder<PaintingBoardBloc, PaintingBoardState>(
-                  bloc: BlocProvider.of<PaintingBoardBloc>(context),
-                  builder: (BuildContext context, PaintingBoardState state) =>
-                      CustomPaint(
-                    painter: PaintingBoardPainter(state.points),
-                  ),
+  Widget build(BuildContext context) {
+    /// Key used to export the painting into image.
+    final GlobalKey _imageKey = GlobalKey();
+
+    return BlocProvider<PaintingBoardBloc>(
+      create: (_) => PaintingBoardBloc(
+        boardHeight: _boardHeight,
+        boardWidth: _boardWidth,
+        paintingBoardController: _controller,
+        imageKey: _imageKey,
+      ),
+      child: Builder(
+        builder: (BuildContext context) => RepaintBoundary(
+          key: _imageKey,
+          child: Container(
+            height: _boardHeight,
+            width: _boardWidth,
+            color: _boardBackgroundColor,
+            decoration: _boardDecoration,
+            child: GestureDetector(
+              onPanStart: (DragStartDetails details) {
+                final Offset position = details.localPosition;
+                BlocProvider.of<PaintingBoardBloc>(context)
+                    .add(PaintingBoardLineStarted(position));
+              },
+              onPanUpdate: (DragUpdateDetails details) {
+                final Offset position = details.localPosition;
+                BlocProvider.of<PaintingBoardBloc>(context)
+                    .add(PaintingBoardLineUpdated(position));
+              },
+              onPanEnd: (_) {
+                BlocProvider.of<PaintingBoardBloc>(context)
+                    .add(PaintingBoardLineEnded());
+              },
+              child: BlocBuilder<PaintingBoardBloc, PaintingBoardState>(
+                bloc: BlocProvider.of<PaintingBoardBloc>(context),
+                builder: (BuildContext context, PaintingBoardState state) =>
+                    CustomPaint(
+                  painter: PaintingBoardPainter(state.points),
                 ),
               ),
             ),
           ),
         ),
-      );
+      ),
+    );
+  }
 }

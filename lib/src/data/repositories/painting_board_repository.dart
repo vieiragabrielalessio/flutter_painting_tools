@@ -1,7 +1,12 @@
-import 'dart:ui';
+import 'dart:io';
+import 'dart:typed_data';
+import 'dart:ui' as ui;
 
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter_painting_tools/src/data/models/painting_board_point.dart';
+import 'package:gallery_saver/gallery_saver.dart';
+import 'package:path_provider/path_provider.dart';
 
 /// A repository that communicates with [PaintingBoardBloc] to manage operations
 /// on the [PaintingBoard].
@@ -10,8 +15,10 @@ class PaintingBoardRepository {
   PaintingBoardRepository({
     required double boardHeight,
     required double boardWidth,
+    required GlobalKey imageKey,
   })  : _boardHeight = boardHeight,
-        _boardWidth = boardWidth;
+        _boardWidth = boardWidth,
+        _imageKey = imageKey;
 
   /// The height of the [PaintingBoard].
   late final double _boardHeight;
@@ -28,6 +35,8 @@ class PaintingBoardRepository {
   /// The starting/default value is [Colors.black].
   Color _brushColor = Colors.black;
   set brushColor(Color color) => _brushColor = color;
+
+  late final GlobalKey _imageKey;
 
   /// A method to add a new point to [_points].
   void addPoint(Offset position) {
@@ -105,6 +114,67 @@ class PaintingBoardRepository {
 
       /// Remove points from the last null to the end.
       _points.removeRange(lastIndexNull + 1, length);
+    }
+  }
+
+  /// This method allows the user to convert the content of the [PaintingBoard]
+  /// into a .png file that is saved in the gallery.
+  ///
+  /// NOTE: this method only works on Android and IOS.
+  Future<void> savePaintingToGallery() async {
+    /// The current [DateTime] is used to name each file. This is useful
+    /// to identify each image.
+    final DateTime now = DateTime.now();
+
+    /// The path of the temporary folder in where the image is temporary stored.
+    final String tempPath = (await getTemporaryDirectory()).path;
+
+    /// The filename of the image (it includes info such as hour, day, ...).
+    final String filename =
+        '/PaintingBoard ${now.year}-${now.month}-${now.day} ${now.hour}:${now.minute}:${now.second}.png';
+
+    /// The complete path to the file: temporary directory path + filename.
+    final String path = tempPath + filename;
+
+    /// The [RenderObject] obtained from the [PaintingBoard].
+    final RenderRepaintBoundary? boundary =
+        _imageKey.currentContext?.findRenderObject() as RenderRepaintBoundary?;
+
+    if (boundary == null) {
+      print(
+        '[WARNING] RenderObject not found, try Hot Restart the application.',
+      );
+      throw Exception();
+    }
+
+    /// The [Image] file converted from the [RenderObject].
+    final ui.Image image = await boundary.toImage();
+
+    /// The [ByteData] converted from the [image].
+    final ByteData? byteData =
+        await image.toByteData(format: ui.ImageByteFormat.png);
+
+    if (byteData == null) {
+      print('[WARNING] An error has occurred, the image was not saved.');
+      throw Exception();
+    }
+
+    /// The list of bytes that represent the image obtained from [byteData].
+    final Uint8List pngBytes = byteData.buffer.asUint8List();
+
+    /// The file stored in the filesystem.
+    final File file = File(path);
+    await file.writeAsBytes(List<int>.from(pngBytes));
+
+    /// The result of saving the file. Contains `true` if the image saved
+    /// correctly.
+    final bool? result = await GallerySaver.saveImage(file.path);
+
+    if (result ?? false) {
+      print('[SUCCESS] The image was saved correctly!');
+    } else {
+      print('[WARNING] An error has occurred, the image was not saved.');
+      throw Exception();
     }
   }
 }

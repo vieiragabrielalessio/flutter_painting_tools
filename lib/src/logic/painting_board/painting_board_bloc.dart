@@ -1,4 +1,5 @@
 import 'package:bloc/bloc.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_painting_tools/flutter_painting_tools.dart';
 import 'package:flutter_painting_tools/src/data/repositories/painting_board_repository.dart';
 import 'package:flutter_painting_tools/src/logic/painting_board/painting_board_event.dart';
@@ -11,10 +12,12 @@ class PaintingBoardBloc extends Bloc<PaintingBoardEvent, PaintingBoardState> {
     required double boardHeight,
     required double boardWidth,
     required PaintingBoardController paintingBoardController,
+    required GlobalKey imageKey,
   }) : super(PaintingBoardInitial()) {
     repository = PaintingBoardRepository(
       boardHeight: boardHeight,
       boardWidth: boardWidth,
+      imageKey: imageKey,
     );
 
     /// Listen to changes on the [PaintingBoardController] and to something based
@@ -32,6 +35,8 @@ class PaintingBoardBloc extends Bloc<PaintingBoardEvent, PaintingBoardState> {
         /// Delete last line.
         repository.deleteLastLine();
         add(PaintingBoardLastLineDeleted());
+      } else if (event is PaintingBoardControllerPaintingSavedToGallery) {
+        repository.savePaintingToGallery();
       }
     });
   }

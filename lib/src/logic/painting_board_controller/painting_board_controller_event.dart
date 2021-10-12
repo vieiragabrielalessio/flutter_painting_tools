@@ -17,3 +17,8 @@ class PaintingBoardControllerBrushColorChanged
 
 class PaintingBoardControllerLastLineDeleted
     extends PaintingBoardControllerEvent {}
+
+/// Event called when user saves the [PaintingBoard] content as image
+/// into the gallery.
+class PaintingBoardControllerPaintingSavedToGallery
+    extends PaintingBoardControllerEvent {}

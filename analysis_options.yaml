@@ -29,7 +29,7 @@ linter:
     avoid_multiple_declarations_per_line: true
     avoid_null_checks_in_equality_operators: true
     avoid_positional_boolean_parameters: true
-    avoid_print: true
+    avoid_print: false
     avoid_private_typedef_functions: true
     avoid_redundant_argument_values: true
     avoid_renaming_method_parameters: true
@@ -134,7 +134,7 @@ linter:
     prefer_is_not_empty: false
     prefer_is_not_operator: true
     prefer_iterable_whereType: true
-    prefer_mixin: true  
+    prefer_mixin: true
     prefer_null_aware_method_calls: true
     prefer_null_aware_operators: true
     prefer_relative_imports: false

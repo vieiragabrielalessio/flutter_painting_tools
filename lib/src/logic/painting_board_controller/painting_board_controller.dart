@@ -29,4 +29,12 @@ class PaintingBoardController {
   void deleteLastLine() {
     _controller.sink.add(PaintingBoardControllerLastLineDeleted());
   }
+
+  /// This method allows the user to convert the content of the [PaintingBoard]
+  /// into a .png file that is saved in the gallery.
+  ///
+  /// NOTE: this method only works on Android and IOS.
+  void savePaintingToGallery() {
+    _controller.sink.add(PaintingBoardControllerPaintingSavedToGallery());
+  }
 }
