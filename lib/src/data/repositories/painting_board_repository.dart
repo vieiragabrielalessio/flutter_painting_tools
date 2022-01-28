@@ -1,5 +1,3 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_painting_tools/src/data/models/painting_board_point.dart';
 
