@@ -1,3 +1,7 @@
+## 1.1.0+1
+
+* Updated documentation for version 1.1.0.
+
 ## 1.1.0
 
 * Added the possibility to delete the last line painted.
