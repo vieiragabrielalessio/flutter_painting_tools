@@ -1,6 +1,6 @@
 name: flutter_painting_tools
 description: A simple flutter library that allows the user to paint on the screen.
-version: 1.1.0+1
+version: 1.2.0
 homepage: https://github.com/Relga44/flutter_painting_tools
 
 environment:
