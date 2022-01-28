@@ -75,7 +75,11 @@ packages:
       path: ".."
       relative: true
     source: path
+<<<<<<< HEAD
     version: "1.2.0"
+=======
+    version: "1.1.0+1"
+>>>>>>> e8fe475c1ac02e73409c37376383121b43dc42c3
   flutter_test:
     dependency: "direct dev"
     description: flutter
