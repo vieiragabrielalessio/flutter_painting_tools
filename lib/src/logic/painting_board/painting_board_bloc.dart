@@ -1,17 +1,18 @@
-import 'package:bloc/bloc.dart';
+import 'dart:async';
+import 'dart:ui';
+
 import 'package:flutter_painting_tools/flutter_painting_tools.dart';
 import 'package:flutter_painting_tools/src/data/repositories/painting_board_repository.dart';
-import 'package:flutter_painting_tools/src/logic/painting_board/painting_board_event.dart';
 import 'package:flutter_painting_tools/src/logic/painting_board/painting_board_state.dart';
 
 /// Bloc used to manage the state of the painting board
-class PaintingBoardBloc extends Bloc<PaintingBoardEvent, PaintingBoardState> {
+class PaintingBoardBloc {
   /// Creates the bloc with the initial state of [PaintingBoardInitial].
   PaintingBoardBloc({
     required double boardHeight,
     required double boardWidth,
     required PaintingBoardController paintingBoardController,
-  }) : super(PaintingBoardInitial()) {
+  }) : super() {
     repository = PaintingBoardRepository(
       boardHeight: boardHeight,
       boardWidth: boardWidth,
@@ -19,45 +20,38 @@ class PaintingBoardBloc extends Bloc<PaintingBoardEvent, PaintingBoardState> {
 
     /// Listen to changes on the [PaintingBoardController] and to something based
     /// on what happened.
-    paintingBoardController.onEventChanged
-        .listen((PaintingBoardControllerEvent event) {
+    paintingBoardController.onEventChanged.listen((PaintingBoardControllerEvent event) {
       if (event is PaintingBoardControllerPaintingDeleted) {
         /// Delete the painting.
         repository.deletePainting();
-        add(PaintingBoardDeleted());
+        deletePaintingBoard();
       } else if (event is PaintingBoardControllerBrushColorChanged) {
         /// Update the brush color in the repository.
         repository.brushColor = event.color;
       } else if (event is PaintingBoardControllerLastLineDeleted) {
         /// Delete last line.
         repository.deleteLastLine();
-        add(PaintingBoardLastLineDeleted());
+        deleteLastLine();
       }
     });
   }
 
-  /// Create a repository.
   late final PaintingBoardRepository repository;
 
-  @override
-  Stream<PaintingBoardState> mapEventToState(PaintingBoardEvent event) async* {
-    if (event is PaintingBoardLineStarted) {
-      // print('line started at: ${event.position}');
-      repository.addPoint(event.position);
+  final StreamController<PaintingBoardState> _controller = StreamController<PaintingBoardState>();
+  Stream<PaintingBoardState> get state => _controller.stream;
 
-      yield PaintingBoardInProgress(repository.points);
-    } else if (event is PaintingBoardLineUpdated) {
-      // print('line updated at: ${event.position}');
-      repository.addPoint(event.position);
-      yield PaintingBoardInProgress(repository.points);
-    } else if (event is PaintingBoardLineEnded) {
-      // print('line ended');
-      repository.addEndLinePoint();
-      yield PaintingBoardInProgress(repository.points);
-    } else if (event is PaintingBoardDeleted) {
-      yield PaintingBoardInitial();
-    } else if (event is PaintingBoardLastLineDeleted) {
-      yield PaintingBoardInProgress(repository.points);
-    }
+  void updateLine(Offset position) {
+    repository.addPoint(position);
+    _controller.add(PaintingBoardInProgress(repository.points));
   }
+
+  void endLine() {
+    repository.addEndLinePoint();
+    _controller.add(PaintingBoardInProgress(repository.points));
+  }
+
+  void deletePaintingBoard() => _controller.add(PaintingBoardInitial());
+
+  void deleteLastLine() => _controller.add(PaintingBoardInProgress(repository.points));
 }
