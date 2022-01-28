@@ -95,46 +95,5 @@ class PaintingBoard extends StatelessWidget {
         );
       },
     );
-
-/*     return StreamProvider<PaintingBoardBloc>(
-        create: (_) => PaintingBoardBloc(
-          boardHeight: _boardHeight,
-          boardWidth: _boardWidth,
-          paintingBoardController: _controller,
-        ),
-        child: Builder(
-          builder: (BuildContext context) => RepaintBoundary(
-            child: Container(
-              height: _boardHeight,
-              width: _boardWidth,
-              color: _boardBackgroundColor,
-              decoration: _boardDecoration,
-              child: GestureDetector(
-                onPanStart: (DragStartDetails details) {
-                  final Offset position = details.localPosition;
-                  BlocProvider.of<PaintingBoardBloc>(context)
-                      .add(PaintingBoardLineStarted(position));
-                },
-                onPanUpdate: (DragUpdateDetails details) {
-                  final Offset position = details.localPosition;
-                  BlocProvider.of<PaintingBoardBloc>(context)
-                      .add(PaintingBoardLineUpdated(position));
-                },
-                onPanEnd: (_) {
-                  BlocProvider.of<PaintingBoardBloc>(context)
-                      .add(PaintingBoardLineEnded());
-                },
-                child: BlocBuilder<PaintingBoardBloc, PaintingBoardState>(
-                  bloc: BlocProvider.of<PaintingBoardBloc>(context),
-                  builder: (BuildContext context, PaintingBoardState state) =>
-                      CustomPaint(
-                    painter: PaintingBoardPainter(state.points),
-                  ),
-                ),
-              ),
-            ),
-          ),
-        ),
-      ); */
   }
 }
