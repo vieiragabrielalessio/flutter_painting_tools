@@ -20,8 +20,7 @@ class PaintingBoardBloc {
 
     /// Listen to changes on the [PaintingBoardController] and to something based
     /// on what happened.
-    paintingBoardController.onEventChanged
-        .listen((PaintingBoardControllerEvent event) {
+    paintingBoardController.state.listen((PaintingBoardControllerEvent event) {
       if (event is PaintingBoardControllerPaintingDeleted) {
         /// Delete the painting.
         repository.deletePainting();
