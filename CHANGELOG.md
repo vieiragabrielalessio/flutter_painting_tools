@@ -1,3 +1,9 @@
+## 1.3.0
+
+- Added the PaintingColorBar widget.
+- Improved performance.
+- Refactored code.
+
 ## 1.2.0
 
 * Removed BLoC dependencies.

@@ -15,21 +15,20 @@ and the Flutter guide for
 
 A simple flutter library that allows the user to paint on the screen.
 
-<img src="https://user-images.githubusercontent.com/90468540/134409076-50f3fd96-8e7d-4921-9f9c-af94a2f849cb.gif" height="500" />
+<img src="https://user-images.githubusercontent.com/90468540/151828678-1732d14a-4932-4470-a591-96d834c71efe.gif" height="500" />
 
 ## Getting started
 
-* [Basic usage](#basic-usage)
-* [Advanced usage](#advanced-usage) 
-  * [setting up a controller](#setting-up-the-controller)
+* [Painting Board](#PaintingBoard)
+* [Painting Board Controller](#PaintingBoardController) 
+  * [setting up the controller](#setting-up-the-controller)
   * [paint with multiple colors](#paint-with-multiple-colors)
   * [delete the painting](#delete-the-painting)
   * [delete last line painted](#delete-last-line-painted)
+* [Painting Color Bar](#PaintingColorBar)
 
 
-<h2 id="basic-usage">Basic Usage</h2>
-
-This package is very easy to use.
+<h2 id="PaintingBoard">Painting Board</h2>
 
 For a basic usage you can just show a simple board on the screen where the user can paint, by displaying a ```PaintingBoard``` in your code.
 
@@ -55,12 +54,13 @@ You can customize your ```PaintingBoard``` how much do you want by changing its 
 | ```boardHeight```          | ```double```                   | The height of the ```PaintingBoard```                                                      | ```double.infinity``` |
 | ```boardWidth```           | ```double```                   | The width of the ```PaintingBoard```                                                       | ```double.infinity``` |
 | ```boardbackgroundColor``` | ```Color?```                   | The background color of the ```PaintingBoard```                                            | ```Colors.grey```     |
-| ```boardDecoration```      | ```BoxDecoration?```           | The decoration of the ```PaintingBoard```                                                  | ```null```            |
-| ```controller```           | ```PaintingBoardController?``` | The controller used to manage advanced task of the ```PaintingBoard``` (explained further) | ```null```            |
+| ```boardDecoration```      | ```BoxDecoration?```           | The decoration of the ```PaintingBoard```                                                  | ``````null``````            |
+| ```controller```           | ```PaintingBoardController?``` | The controller used to manage advanced task of the ```PaintingBoard``` (explained further) | ``````null``````            |
 
-<h2 id="advanced-usage">Advanced Usage</h2>
+<h2 id="PaintingBoardController">Painting Board Controller</h2>
 
 <h3 id="setting-up-the-controller">Setting up the controller</h3>
+
 
 If you want do perform advanced task, such as paint with different colors, delete the painting, ecc. you need to set up a ```PaintingBoardController```.  
 Follow these steps to do it properly:
@@ -126,6 +126,7 @@ IconButton(
 
 It is very simple to delete the last line painted. You just need to call the ```deleteLastLine()``` method of the ```PaintingBoardController```.
 
+
 Example: 
 ```dart
 IconButton(
@@ -134,5 +135,30 @@ IconButton(
 )
 ```
 
-<img src="https://user-images.githubusercontent.com/90468540/136088559-856f0e03-1821-4430-9675-f9aeeaef0f9a.gif
-" height="500" />
+<h2 id="PaintingColorBar">Painting Color Bar</h2>
+
+If you want to use a simple default bar to select the color, you can use the ```PaintingColorBar``` widget.
+
+<br>
+
+<img src="https://user-images.githubusercontent.com/90468540/151828678-1732d14a-4932-4470-a591-96d834c71efe.gif" height="500" />
+
+You can play with different properties to style this widget how much do you want:
+| Property                     | Type                    | Meaning                                                                                                                              | Default Value                                                                 |
+| ---------------------------- | ----------------------- | ------------------------------------------------------------------------------------------------------------------------------------ | ----------------------------------------------------------------------------- |
+| itemSize                     | ```double ```                 | The size of each color item                                                                                                          | ```40```                                                                            |
+| backGroundColor              | ```Color ```                  | The color of the background of the ```PaintingColorBar```                                                                                | ```Colors.black12  ```                                                              |
+| itemMargin                   | ```EdgeInsets ```             | The margin applied at every item                                                                                                     | ```const EdgeInsets.symmetric(horizontal: 10, vertical: 5)```                       |
+| colorsType                   | ```ColorsType```              | The types of colors to use Note that if this property is set to ```ColorsType.custom```, ```customColors``` must be provided                 | ```ColorsType.material```                                                           |
+| customColors                 | ```List<Color>? ```           | The colors displayed in the ```PaintingColorBar``` Note that if ```colorsType``` is not set to ```ColorsType.custom```, this property is useless | ```null```                                                                          |
+| itemShape                    | ```ItemShape```               | The ```ItemShape``` applied to each item                                                                                                 | ```ItemShape.circle```                                                              |
+| onTap                        | ```Function(Color)? ```       | The callback that is called every time an item color is tapped It takes the color tapped as an argument                              | ```null```                                                                          |
+| itemBoxShadow                | ```List<BoxShadow>? ```       | The ```BoxShadow``` applied to each item                                                                                                 | ```null```                                                                          |
+| unselectedItemBorder         | ```BoxBorder?```              | The ```BoxBorder``` applied to each item that is unselected                                                                              | ```null```                                                                          |
+| selectedItemBorder           | ```BoxBorder? ```             | The ```BoxBorder``` applied to the item that is selected                                                                                 | ```const Border.fromBorderSide( BorderSide(width: 2, color: Colors.black38, ), )``` |
+| paintingColorBarMargin       | ```EdgeInsets? ```            | The margin of the entire ```PaintingColorBar```                                                                                          | ```null```                                                                          |
+| scrollPhysics                | ```ScrollPhysics ```          | The ```ScrollPhysics``` applied to the list of items                                                                                     | ```const BouncingScrollPhysics() ```                                                |
+| reverseColorList             | ```bool```                    | This property, if set to ```true```, allows to display the colors reversed                                                               | ```false```                                                                         |
+| controller                   | ```PaintingBoardController``` | The ```PaintingBoardController``` used to manage the ```PaintingBoard``` and the ```PaintingColorBar```                                          | no default value, is required                                                 |
+| paintingColorBarBorderRadius | ```BorderRadius? ```          | The ```BorderRadius``` applied to the ```PaintingColorBar```                                                                                 | ```null```                                                                          |
+| useIntelligentBorderRadius   | ```bool```                    | This property, if set to ```true```, automatically calculates the ```BorderRadius``` based on the item size                                  | ```true```                                                                          |

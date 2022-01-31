@@ -6,20 +6,16 @@ import 'package:flutter_painting_tools/flutter_painting_tools.dart';
 /// Controller for the [PaintingBoard] used to manage
 /// specific tasks.
 class PaintingBoardController {
-  PaintingBoardController() {
-    _controller = StreamController<PaintingBoardControllerEvent>();
-    onEventChanged = _controller.stream;
-  }
-
-  late final StreamController<PaintingBoardControllerEvent> _controller;
-  late final Stream<PaintingBoardControllerEvent> onEventChanged;
+  final StreamController<PaintingBoardControllerEvent> _controller =
+      StreamController<PaintingBoardControllerEvent>();
+  Stream<PaintingBoardControllerEvent> get state => _controller.stream;
 
   void deletePainting() {
-    _controller.sink.add(PaintingBoardControllerPaintingDeleted());
+    _controller.add(PaintingBoardControllerPaintingDeleted());
   }
 
   void changeBrushColor(Color color) {
-    _controller.sink.add(PaintingBoardControllerBrushColorChanged(color));
+    _controller.add(PaintingBoardControllerBrushColorChanged(color));
   }
 
   void dispose() {
@@ -27,6 +23,6 @@ class PaintingBoardController {
   }
 
   void deleteLastLine() {
-    _controller.sink.add(PaintingBoardControllerLastLineDeleted());
+    _controller.add(PaintingBoardControllerLastLineDeleted());
   }
 }
