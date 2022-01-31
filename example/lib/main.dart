@@ -49,8 +49,9 @@ class _HomeScreenState extends State<HomeScreen> {
         title: const Text('Example'),
         actions: [
           IconButton(
+            // delete last line when this button is pressed
             onPressed: () => controller.deleteLastLine(),
-            icon: const Icon(Icons.arrow_back),
+            icon: const Icon(Icons.undo_rounded),
           ),
           IconButton(
             // Delete everything inside the board when this button is pressed
@@ -60,48 +61,29 @@ class _HomeScreenState extends State<HomeScreen> {
         ],
       ),
       body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
+          const SizedBox(height: 25),
+          PaintingColorBar(
+            controller: controller, // use here the controller defined before
+            paintingColorBarMargin: const EdgeInsets.symmetric(horizontal: 6),
+            colorsType: ColorsType.material,
+            onTap: (Color color) {
+              // do your logic here with the pressed color, for example change the color of the brush
+              print('tapped color: $color');
+              controller.changeBrushColor(color);
+            },
+          ),
+          const SizedBox(height: 50),
           Center(
             // Use here the PaintingBoard
             child: PaintingBoard(
               boardHeight: 500,
               boardWidth: 300,
-              boardBackgroundColor: Colors.grey[400],
-              controller: controller,
+              controller: controller, // use here the controller
             ),
           ),
-          const SizedBox(height: 20),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              ElevatedButton(
-                // Change the color of the "brush"
-                onPressed: () => controller.changeBrushColor(Colors.blue),
-                style: ButtonStyle(
-                  backgroundColor: MaterialStateProperty.all(Colors.blue),
-                ),
-                child: const Text('blue'),
-              ),
-              ElevatedButton(
-                // Change the color of the "brush"
-                onPressed: () => controller.changeBrushColor(Colors.black),
-                style: ButtonStyle(
-                  backgroundColor: MaterialStateProperty.all(Colors.black),
-                ),
-                child: const Text('black'),
-              ),
-              ElevatedButton(
-                // Change the color of the "brush"
-                onPressed: () => controller.changeBrushColor(Colors.red),
-                style: ButtonStyle(
-                  backgroundColor: MaterialStateProperty.all(Colors.red),
-                ),
-                child: const Text('red'),
-              ),
-            ],
-          )
         ],
       ),
     );
