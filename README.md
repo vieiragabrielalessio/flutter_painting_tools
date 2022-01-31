@@ -25,7 +25,7 @@ A simple flutter library that allows the user to paint on the screen.
   * [paint with multiple colors](#paint-with-multiple-colors)
   * [delete the painting](#delete-the-painting)
   * [delete last line painted](#delete-last-line-painted)
-* [Painting Bar Color](#PaintingColorBar)
+* [Painting Color Bar](#PaintingColorBar)
 
 
 <h2 id="PaintingBoard">Painting Board</h2>
@@ -126,6 +126,7 @@ IconButton(
 
 It is very simple to delete the last line painted. You just need to call the ```deleteLastLine()``` method of the ```PaintingBoardController```.
 
+
 Example: 
 ```dart
 IconButton(
@@ -134,19 +135,13 @@ IconButton(
 )
 ```
 
-<img src="https://user-images.githubusercontent.com/90468540/136088559-856f0e03-1821-4430-9675-f9aeeaef0f9a.gif
-" height="500" />
-
-
 <h2 id="PaintingColorBar">Painting Color Bar</h2>
-If you want to use a simple default bar to select the color, you can use the ```PaintingBoardController``` widget.
+
+If you want to use a simple default bar to select the color, you can use the ```PaintingColorBar``` widget.
 
 <br>
 
 <img src="https://user-images.githubusercontent.com/90468540/151828678-1732d14a-4932-4470-a591-96d834c71efe.gif" height="500" />
-
-
-
 
 You can play with different properties to style this widget how much do you want:
 | Property                     | Type                    | Meaning                                                                                                                              | Default Value                                                                 |
