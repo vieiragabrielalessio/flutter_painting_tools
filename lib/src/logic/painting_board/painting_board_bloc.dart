@@ -20,7 +20,8 @@ class PaintingBoardBloc {
 
     /// Listen to changes on the [PaintingBoardController] and to something based
     /// on what happened.
-    paintingBoardController.onEventChanged.listen((PaintingBoardControllerEvent event) {
+    paintingBoardController.onEventChanged
+        .listen((PaintingBoardControllerEvent event) {
       if (event is PaintingBoardControllerPaintingDeleted) {
         /// Delete the painting.
         repository.deletePainting();
@@ -38,7 +39,8 @@ class PaintingBoardBloc {
 
   late final PaintingBoardRepository repository;
 
-  final StreamController<PaintingBoardState> _controller = StreamController<PaintingBoardState>();
+  final StreamController<PaintingBoardState> _controller =
+      StreamController<PaintingBoardState>();
   Stream<PaintingBoardState> get state => _controller.stream;
 
   void updateLine(Offset position) {
@@ -53,5 +55,6 @@ class PaintingBoardBloc {
 
   void deletePaintingBoard() => _controller.add(PaintingBoardInitial());
 
-  void deleteLastLine() => _controller.add(PaintingBoardInProgress(repository.points));
+  void deleteLastLine() =>
+      _controller.add(PaintingBoardInProgress(repository.points));
 }

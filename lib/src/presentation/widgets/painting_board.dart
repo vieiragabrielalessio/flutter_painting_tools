@@ -21,7 +21,8 @@ class PaintingBoard extends StatelessWidget {
         ),
         _boardHeight = boardHeight ?? double.infinity,
         _boardWidth = boardWidth ?? double.infinity,
-        _boardBackgroundColor = boardBackgroundColor ?? (boardDecoration == null ? Colors.grey : null),
+        _boardBackgroundColor = boardBackgroundColor ??
+            (boardDecoration == null ? Colors.grey : null),
         _boardDecoration = boardDecoration,
         _controller = controller ?? PaintingBoardController(),
         super(key: key);
@@ -84,7 +85,9 @@ class PaintingBoard extends StatelessWidget {
                   },
                   onPanEnd: (_) => context.read<PaintingBoardBloc>().endLine(),
                   child: Consumer<PaintingBoardState>(
-                    builder: (BuildContext context, PaintingBoardState state, _) => CustomPaint(
+                    builder:
+                        (BuildContext context, PaintingBoardState state, _) =>
+                            CustomPaint(
                       painter: PaintingBoardPainter(state.points),
                     ),
                   ),
